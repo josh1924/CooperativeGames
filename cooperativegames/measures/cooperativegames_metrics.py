@@ -155,8 +155,7 @@ def shapley_index(distrib_repr, win_thr=0.5):
     p = math.factorial(n)
 
     cum = []
-    perm =\
-        permutations(np.arange(n)[distrib_repr > 0], (distrib_repr > 0).sum())
+    perm = permutations(np.arange(n)[distrib_repr > 0], int((distrib_repr > 0).sum()))
     for per in perm:
         idx = np.where(np.cumsum(distrib_repr[list(per)]) >= win_v)[0][0]
         cum.append(per[idx])
@@ -164,7 +163,9 @@ def shapley_index(distrib_repr, win_thr=0.5):
     # Formatting output
     shapley_ind = np.zeros(n)
     n_out = len(c.values())
-    shapley_ind[:n_out] = np.array(c.values())/float(p)
+    # shapley_ind[:n_out] = np.array(c.values())/float(p)
+    for item in c.items():
+        shapley_ind[item[0]] = item[1] / float(p)
 
     return shapley_ind
 
@@ -219,7 +220,9 @@ def banzhaf_index(distrib_repr, win_thr=0.5):
     nc = len(aux)
     # Computing index
     banzhaf_ind = np.zeros(distrib_repr.shape)
-    banzhaf_ind[c.keys()] = np.array(c.values())/float(nc)
+    # banzhaf_ind[c.keys()] = np.array(c.values())/float(nc)
+    for item in c.items():
+        banzhaf_ind[item[0]] = item[1] / float(nc)
 
     return banzhaf_ind
 
